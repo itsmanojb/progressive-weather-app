@@ -1,14 +1,15 @@
-.aqi-widget {
+.widget {
   container-type: inline-size;
-  .header {
-    padding: 0.25rem 0;
+
+  h2 {
+    padding: 0.15rem 0;
     margin: 1rem 0;
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.45);
     font-size: 1.25rem;
     font-weight: 400;
   }
 
-  .contents {
+  > div {
     padding: 1rem;
     background-color: var(--glass-bg);
     border: var(--glass-border);
@@ -42,12 +43,12 @@
       gap: 10px;
       font-size: 13px;
 
-      .lbl {
+      span:first-of-type {
         opacity: 0.8;
         width: 30px;
       }
 
-      .val {
+      span:nth-of-type(2) {
         color: #ddd;
       }
     }
@@ -55,10 +56,11 @@
 }
 
 @container (min-width:400px) {
-  .aqi-widget {
-    .contents {
+  .widget {
+    > div {
       height: auto;
     }
+
     ul {
       columns: 1;
       display: flex;
@@ -67,7 +69,8 @@
       margin: 4px 0 0;
       li {
         gap: 6px;
-        .lbl {
+
+        span:first-of-type {
           width: auto;
         }
       }

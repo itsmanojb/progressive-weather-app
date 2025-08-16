@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import DataService from '../services/dataService';
-import { CurrentWeather } from '../services/types';
-import './Forecasts.css';
+import { CurrentWeather } from '../types';
+import style from './CurrentUpdate.module.css';
 
 type CurrentWeatherUpdateProps = {
   data: CurrentWeather;
@@ -13,8 +13,8 @@ type CurrentWeatherUpdateProps = {
 const CurrentUpdate = ({ data, miniview }: CurrentWeatherUpdateProps) => {
   const [minView, setMinView] = useState(miniview);
 
-  const tempUnit = '°c'; //  F
-  const windSpeedUnit = 'km/h'; // 'mt/s'; // miles/hour
+  const tempUnit = '°c';
+  const windSpeedUnit = 'km/h';
   const windDirection = DataService.degreesToCompass(data.wind.deg);
 
   useEffect(() => {
@@ -24,36 +24,40 @@ const CurrentUpdate = ({ data, miniview }: CurrentWeatherUpdateProps) => {
   const darkIcons = ['01n', '13d', '13n', '50d', '50n'];
 
   return (
-    <div className={minView ? 'current-place min' : 'current-place'}>
-      <div className="highlight">
-        <div className="location">{data.name}</div>
-        <div className="temp">
+    <div
+      className={minView ? style['current-place-min'] : style['current-place']}
+    >
+      <div className={style['highlight']}>
+        <div className={style['location']}>{data.name}</div>
+        <div className={style['temp']}>
           <span>{data.main.temp.toFixed(0)}</span>
           <sup>{tempUnit}</sup>
         </div>
         <div
-          className={`icon ${
-            darkIcons.includes(data.weather[0].icon) ? 'inv' : ''
-          }`}
+          className={
+            darkIcons.includes(data.weather[0].icon)
+              ? style['icon-inv']
+              : style['icon']
+          }
         >
           <img
-            className="city-icon"
+            className={style['weather-icon']}
             src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`}
             alt={data.weather[0].main}
           />
         </div>
       </div>
-      <div className="more-info">
-        <div className="description">
-          <span className="w">
+      <div className={style['more-info']}>
+        <div className={style['description']}>
+          <span>
             {data.weather[0].main} ({data.weather[0].description}), Feels like{' '}
             {data.main.feels_like.toFixed(0)}
             {tempUnit}
           </span>
           {data.rain && <span>Rain: {data.rain['1h']}mm (in last 1hr)</span>}
         </div>
-        <div className="humid">Humidity: {data.main.humidity}%</div>
-        <div className="wind">
+        <div className={style['humid']}>Humidity: {data.main.humidity}%</div>
+        <div className={style['wind']}>
           {windDirection} {Math.round(data.wind.speed * 3.6)} {windSpeedUnit}
         </div>
         {/* <div className="temp">
@@ -69,10 +73,10 @@ const CurrentUpdate = ({ data, miniview }: CurrentWeatherUpdateProps) => {
           </span>
         </div> */}
       </div>
-      <div className="city">
+      <div className={style['city']}>
         {data.dt < data.sys.sunrise && (
           <div>
-            <span className="icon sunrise"></span>
+            <span className={style['icon-sunrise']}></span>
             <p>
               Sunrise
               <strong>
@@ -83,7 +87,7 @@ const CurrentUpdate = ({ data, miniview }: CurrentWeatherUpdateProps) => {
         )}
         {data.dt >= data.sys.sunrise && data.dt < data.sys.sunset && (
           <div>
-            <span className="icon sunset"></span>
+            <span className={style['icon-sunset']}></span>
             <p>
               Sunset
               <strong>
@@ -94,7 +98,7 @@ const CurrentUpdate = ({ data, miniview }: CurrentWeatherUpdateProps) => {
         )}
         {data.dt >= data.sys.sunset && (
           <div>
-            <span className="icon sunrise"></span>
+            <span className={style['icon-sunrise']}></span>
             <p>
               Sunrise
               <strong>
@@ -104,32 +108,32 @@ const CurrentUpdate = ({ data, miniview }: CurrentWeatherUpdateProps) => {
           </div>
         )}
         <div>
-          <span className="icon uv"></span>
+          <span className={style['icon-uv']}></span>
           <p>
             UV Index
             <strong>-</strong>{' '}
           </p>
         </div>
         <div>
-          <span className="icon vis"></span>
+          <span className={style['icon-visibility']}></span>
           <p>
             Visibility <strong>{Math.round(data.visibility / 1000)} km</strong>
           </p>
         </div>
         <div>
-          <span className="icon press"></span>
+          <span className={style['icon-pressure']}></span>
           <p>
             Air Pressure <strong>{data.main.pressure} hPa</strong>
           </p>
         </div>
         <div>
-          <span className="icon cloud"></span>
+          <span className={style['icon-cloudiness']}></span>
           <p>
             Cloudiness <strong>{data.clouds.all}%</strong>{' '}
           </p>
         </div>
         <div>
-          <span className="icon rain"></span>
+          <span className={style['icon-rain']}></span>
           <p>
             Rain in 3 hour{' '}
             <strong>{data?.rain?.['1h'] || 0 + ' mm'}</strong>{' '}

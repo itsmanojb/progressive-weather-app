@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
-import CurrentUpdate from './components/CurrentUpdate';
-import Upcoming5Days from './components/Upcoming5Days';
-import HourlyUpdates from './components/HourlyUpdates';
-import Sidebar from './components/Sidebar';
+
+import {
+  CurrentUpdate,
+  AirQuality,
+  Upcoming5Days,
+  HourlyUpdates,
+  Sidebar,
+} from './components';
 import DataService from './services/dataService';
 import { getWeatherWithForecast } from './services/weatherService';
-import { CombinedWeatherData } from './services/types';
+import { CombinedWeatherData } from './types';
 import './Weather.css';
-import AirQuality from './components/AirQuality';
 
 const App: React.FC = () => {
   const [bgClass, setBGClass] = useState('');
@@ -69,7 +72,7 @@ const App: React.FC = () => {
   }
 
   useIdleTimer({
-    timeout: 1000 * 60,
+    timeout: 1000 * 30,
     onIdle: handleOnIdle,
   });
 

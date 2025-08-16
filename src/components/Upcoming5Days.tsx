@@ -1,6 +1,6 @@
 import DataService from '../services/dataService';
-import { City, WeatherForecast } from '../services/types';
-import './Forecasts.css';
+import { City, WeatherForecast } from '../types';
+import style from './Upcoming5Days.module.css';
 
 const Upcoming5Days = ({ data }: { data: WeatherForecast[]; city: City }) => {
   const todayDate = new Date().toISOString().split('T')[0];
@@ -8,7 +8,7 @@ const Upcoming5Days = ({ data }: { data: WeatherForecast[]; city: City }) => {
     (dt) => dt.date !== todayDate,
   );
 
-  const tempUnit = '°c'; //  F
+  const tempUnit = '°c';
 
   const upcomingDays = summarizedData.map((day) => {
     day['weekday'] = DataService.getWeekdayWithRelative(day.date);
@@ -17,22 +17,22 @@ const Upcoming5Days = ({ data }: { data: WeatherForecast[]; city: City }) => {
 
   return (
     upcomingDays.length && (
-      <div className="days-5">
-        <div className="header">5 days forecast</div>
+      <div className={style['section']}>
+        <h2>5 days forecast</h2>
         <div className="scroll-wrapper">
           {upcomingDays.map((day, i) => (
-            <div className="day" key={`day${i + 1}`}>
-              <div className="name">
+            <div className={style['day']} key={`day${i + 1}`}>
+              <div className={style['name']}>
                 {day['weekday']}
                 <span>{day.mainCondition}</span>
               </div>
-              <div className="icon">
+              <div className={style['icon']}>
                 <img
                   src={`https://openweathermap.org/img/wn/${day.icons[0]}@2x.png`}
                   alt={day.mainCondition}
                 />
               </div>
-              <div className="weather">
+              <div className={style['weather']}>
                 <div>
                   <span>Temp :</span>
                   <span>

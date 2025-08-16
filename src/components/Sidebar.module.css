@@ -23,21 +23,17 @@
   z-index: 1;
   padding: 4rem 2rem;
   overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
-.glass-contents.night {
+.dark-glass-contents {
+  composes: glass-contents;
   background: rgba(0, 0, 0, 0.75);
-}
-
-.glass-contents::-webkit-scrollbar {
-  display: none;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.header {
-  color: #eee;
-  padding: 2rem 0;
 }
 
 .close {
@@ -59,11 +55,10 @@
   align-items: center;
   justify-content: center;
   padding: 4px 0 10px;
-}
-
-.close:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
 }
 
 .searchbox {
@@ -80,25 +75,19 @@
   color: #fff;
   line-height: 1;
   font-size: 1rem;
-}
 
-input::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-input:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  &::-webkit-input-placeholder,
+  &:-ms-input-placeholder,
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
 }
 
 .locations {
   padding: 0;
 }
 
-.locations .place {
+.place {
   padding: 1rem;
   color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
@@ -121,50 +110,58 @@ input::placeholder {
   cursor: default;
 }
 
-.locations .place.big {
+.place-big {
   background-color: rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease-in;
   margin-bottom: 0.5rem;
   display: grid;
   grid-template-columns: 1fr 140px;
   align-items: center;
+  border-radius: var(--corner);
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+  }
 }
 
-.locations .place.big:hover {
-  background-color: rgba(255, 255, 255, 0.15) !important;
-}
-
-.locations .place.big .w {
+.flex {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
 
-.locations .place.big .w .temp {
+.temp {
   font-size: 24px;
-}
-
-.locations .place.big .w .icon {
-  font-size: 24px;
-}
-
-.place.big .place-info p {
-  font-size: 1rem;
-  margin: 6px 0;
   color: #eee;
 }
 
-.place.big .place-info span {
-  display: block;
-  font-size: 14px;
-  color: #bbb;
+.icon {
+  font-size: 24px;
 }
 
-.locations .place:not(.nohov):hover {
+.place-info {
+  padding: 1rem;
+
+  p {
+    font-size: 1rem;
+    margin: 0 0 10px;
+    color: #ddd;
+  }
+
+  span {
+    display: block;
+    font-size: 14px;
+    color: #bbb;
+  }
+}
+
+.place:not(.nohov):hover {
   color: rgba(255, 255, 255, 0.85);
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-.locations .noplace {
+.noplace {
   padding: 0.5rem 0;
   color: rgba(255, 255, 255, 0.5);
 }
@@ -183,7 +180,7 @@ input::placeholder {
     padding: 0;
 
     li {
-      padding: 0.75rem 1rem;
+      padding: 1rem;
       line-height: 1;
       background-color: rgba(255, 255, 255, 0.02);
       backdrop-filter: blur(10px);

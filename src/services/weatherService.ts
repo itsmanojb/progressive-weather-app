@@ -3,7 +3,7 @@ import {
   ForecastData,
   AirPollutionData,
   CombinedWeatherData,
-} from './types';
+} from '../types';
 
 const CACHE_DURATION_MINUTES = 10; // cache lifetime
 const CACHE_KEY_PREFIX = 'weather_cache_';

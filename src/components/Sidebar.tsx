@@ -7,7 +7,7 @@ import {
   getCachedWeather,
   setCachedWeather,
 } from '../services/storageService';
-import './Sidebar.css';
+import style from './Sidebar.module.css';
 
 const API_KEY = import.meta.env.VITE_OWM_API_KEY;
 
@@ -45,14 +45,12 @@ const Sidebar = ({ klass, onPlaceClicked, onCloseClicked }) => {
   };
 
   async function fetchWeather(location: string) {
-    // 1. Check cache
     const cached = getCachedWeather(location);
     if (cached) {
-      console.log('Using cached:', cached);
+      // console.log('Using cached:', cached);
       return cached.data;
     }
 
-    // 2. Fetch from API
     let data: any = null;
     try {
       const res = await fetch(
@@ -60,8 +58,7 @@ const Sidebar = ({ klass, onPlaceClicked, onCloseClicked }) => {
       );
       const _data = await res.json();
       if (_data?.cod === 200) {
-        // 3. Save to cache + recent
-        setCachedWeather(location, data);
+        setCachedWeather(location, _data);
         addRecentSearch(location);
         data = _data;
       }
@@ -72,26 +69,37 @@ const Sidebar = ({ klass, onPlaceClicked, onCloseClicked }) => {
     return data;
   }
 
-  function toggleFav(location: string) {
+  /* function toggleFav(location: string) {
     toggleFavorite(location);
     console.log('Favorites:', getFavorites());
-  }
+  } */
 
   const selectPlace = (e) => {
     onCloseClicked(true);
     onPlaceClicked(e);
   };
 
+  const getWeather = async (location: string) => {
+    const loc = await fetchWeather(location);
+    if (loc) {
+      selectPlace(loc);
+    }
+  };
+
   return (
     <>
-      <div className={`glass ${klass}`}></div>
+      <div className={style['glass'] + ` ${klass}`}></div>
       <div
-        className={`glass-contents ${klass.includes('night') ? 'night' : ''}`}
+        className={
+          klass.includes('night')
+            ? style['dark-glass-contents']
+            : style['glass-contents ']
+        }
       >
-        <div className="close" onClick={(e) => onCloseClicked(true)}>
+        <div className={style['close']} onClick={(e) => onCloseClicked(true)}>
           &times;
         </div>
-        <div className="searchbox">
+        <div className={style['searchbox']}>
           <input
             type="text"
             name="name"
@@ -104,28 +112,28 @@ const Sidebar = ({ klass, onPlaceClicked, onCloseClicked }) => {
             autoComplete="off"
           />
         </div>
-        {searching && <div className="searching">Searching...</div>}
+        {searching && <div className={style['searching']}>Searching...</div>}
         {searchCompleted && (
-          <div className="locations">
+          <div className={style['locations']}>
             {weather ? (
               <>
-                <div className="results">
+                <div className={style['results']}>
                   <div
-                    className="place big"
+                    className={style['place-big']}
                     onClick={() => selectPlace(weather)}
                   >
-                    <div className="place-info">
+                    <div className={style['place-info']}>
                       <p>
                         {weather.name}, {weather.sys.country}
                       </p>
                       <span>Currently {weather.weather[0].description}</span>
                     </div>
-                    <div className="condition">
-                      <div className="w">
-                        <div className="temp">
+                    <div>
+                      <div className={style['flex']}>
+                        <div className={style['temp']}>
                           {Math.round(weather.main.temp)} {tempUnit}
                         </div>
-                        <div className="icon">
+                        <div className={style['icon']}>
                           <img
                             src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
                             alt={weather.weather[0].description}
@@ -138,16 +146,20 @@ const Sidebar = ({ klass, onPlaceClicked, onCloseClicked }) => {
                 {/* <div className="place">Set as default</div> */}
               </>
             ) : (
-              !searching && <div className="noplace">No result found</div>
+              !searching && (
+                <div className={style['noplace']}>No result found</div>
+              )
             )}
           </div>
         )}
         {recent.length > 0 && (
-          <div className="recent-searches">
+          <div className={style['recent-searches']}>
             <h3>Recent Searches</h3>
             <ul>
               {recent.map((loc, i) => (
-                <li key={i}>{loc}</li>
+                <li key={i} onClick={() => getWeather(loc)}>
+                  {loc}
+                </li>
               ))}
             </ul>
           </div>

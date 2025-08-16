@@ -1,4 +1,4 @@
-import { DailyWeatherSummary, WeatherForecast } from './types';
+import { DailyWeatherSummary, WeatherForecast } from '../types';
 
 function getDateTime(
   unixTimestamp: number,

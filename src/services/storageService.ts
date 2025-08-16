@@ -9,9 +9,8 @@ export interface WeatherData {
 const RECENT_KEY = 'weather_recent';
 const FAVORITES_KEY = 'weather_favorites';
 const CACHE_KEY = 'weather_cache';
-const CACHE_TTL = 60 * 60 * 1000; // 60 minutes
+const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
-// --- Recent Searches ---
 export function addRecentSearch(location: string) {
   const recents = getRecentSearches();
   const updated = [location, ...recents.filter((r) => r !== location)].slice(
@@ -25,7 +24,6 @@ export function getRecentSearches(): string[] {
   return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
 }
 
-// --- Favorites ---
 export function toggleFavorite(location: string) {
   const favorites = getFavorites();
   let updated;
@@ -41,7 +39,6 @@ export function getFavorites(): string[] {
   return JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
 }
 
-// --- Weather Caching ---
 export function setCachedWeather(location: string, data: any) {
   const cache = getCache();
   cache[location.toLowerCase()] = {

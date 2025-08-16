@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { HourlyWeatherForecast, WeatherForecast } from '../services/types';
+import { HourlyWeatherForecast, WeatherForecast } from '../types';
 import DataService from '../services/dataService';
 import compassIcon from '../assets/icons/compass.svg';
-import './Forecasts.css';
+import style from './HourlyUpdates.module.css';
 
 const HourlyUpdates = ({ data }: { data: WeatherForecast[] }) => {
   const [nextHours, setNextHours] = useState<HourlyWeatherForecast[]>([]);
   const [selectedTile, setSelectedTile] = useState<number>(0);
 
-  const tempUnit = '°c'; //  F
-  const windSpeedUnit = ' km/h'; // 'mt/s'; // miles/hour
+  const tempUnit = '°c';
+  const windSpeedUnit = ' km/h';
 
   useEffect(() => {
     const futureUpdates = data
@@ -23,42 +23,32 @@ const HourlyUpdates = ({ data }: { data: WeatherForecast[] }) => {
     setNextHours(futureUpdates);
   }, [data]);
 
-  const isDarkHour = (_) => {
-    return false;
-  };
-
   const isSelectedTile = (dt: number) => selectedTile === dt;
 
   return (
-    <div className="hourly-updates">
-      <div className="header">
-        <h2>Hourly Forecast</h2>
-      </div>
-
+    <div className={style['section']}>
+      <h2>Hourly Forecast</h2>
       <div className="scroll-wrapper">
         {nextHours.map((hour, i) => (
           <div
             className={
-              (isDarkHour(hour.dt) ? 'hour dark' : 'hour') +
+              style['hour'] +
               ' ' +
-              (isSelectedTile(hour.dt) ? 'selected' : '')
+              (isSelectedTile(hour.dt) ? style['selected'] : '')
             }
             key={`hr${i + 1}`}
             onClick={() => setSelectedTile(hour.dt)}
           >
-            <div className="fg">
-              <div className="time">
-                {hour.dateTime}
-                <span>{isDarkHour(hour.dt)}</span>
-              </div>
-              <div className="icon">
+            <div className={style['fg']}>
+              <div className={style['time']}>{hour.dateTime}</div>
+              <div className={style['icon']}>
                 <img
                   src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}.png`}
                   alt={hour.weather[0].main}
                 />
               </div>
-              <div className="weather">
-                <div className="temp">
+              <div className={style['weather']}>
+                <div>
                   <span>
                     {Math.round(hour.main.temp)}
                     {tempUnit}
@@ -66,7 +56,7 @@ const HourlyUpdates = ({ data }: { data: WeatherForecast[] }) => {
                 </div>
               </div>
             </div>
-            <div className="full-details">
+            <div className={style['full-details']}>
               <dl>
                 <dt>Cond.</dt>
                 <dd>{hour.weather[0].description}</dd>
@@ -95,7 +85,7 @@ const HourlyUpdates = ({ data }: { data: WeatherForecast[] }) => {
                     {windSpeedUnit}
                   </span>
                   <div
-                    className="compass"
+                    className={style['compass']}
                     style={{ rotate: `${hour.wind.deg}deg` }}
                   >
                     <img src={compassIcon} alt="" />

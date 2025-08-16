@@ -1,5 +1,5 @@
-import { AirPollutionInfo } from '../services/types';
-import './AirQuality.css';
+import { AirPollutionInfo } from '../types';
+import styles from './AirQuality.module.css';
 
 type Props = {
   data: AirPollutionInfo;
@@ -14,9 +14,9 @@ export default function AirQuality({ data }: Props) {
     5: 'Very Poor',
   };
   return (
-    <div className="aqi-widget">
-      <div className="header">Air Quality</div>
-      <div className="contents">
+    <div className={styles.widget}>
+      <h2>Air Quality</h2>
+      <div>
         <p>{quality[data.main.aqi]}</p>
         <ul>
           <li>
