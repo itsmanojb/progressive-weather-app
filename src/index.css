@@ -8,7 +8,13 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: 'Kumbh Sans', sans-serif;
+  color-scheme: light dark;
   user-select: none;
+
+  --corner: 8px;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.06);
+  --glass-filter: blur(10px);
 }
 
 input {
@@ -25,19 +31,12 @@ button:focus {
   outline: none;
 }
 
-
 .main-container {
-  background-color: rgba(0, 0, 0, 0.55);
+  background-color: light-dark(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
   background-size: cover;
   background-position: center;
   background-blend-mode: overlay;
-}
-
-.main-container.night {
-  background-color: rgba(0, 0, 0, 0.75);
-}
-
-.main-container {
+  container-type: inline-size;
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr;
@@ -82,18 +81,30 @@ button:focus {
   overflow: hidden;
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width: 600px) {
   .main-container.drawer-open {
     grid-template-columns: 1fr;
-  }
-
-  .left {
-    padding: 4rem 2rem;
   }
 
   .main-container.drawer-open .left {
     display: none;
   }
+}
+
+.scroll-wrapper {
+  max-width: calc(100vw - 8rem);
+  min-height: 150px;
+  display: flex;
+  overflow: auto;
+  padding-bottom: 1rem;
+  margin: 0 -4px;
+  column-gap: 0.5rem;
+}
+
+.scroll-wrapper::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .grabber {
@@ -104,16 +115,36 @@ button:focus {
   background: url('./assets/icons/search.png') no-repeat center;
   background-size: 20px;
   top: 0;
-  border-radius: 4px;
+  border-radius: var(--corner);
   margin: 30px;
   cursor: pointer;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 }
 
+.w-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1rem;
 
-.grabber:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  .h-data {
+    grid-column: 1/-1;
+  }
 }
 
+@container (max-width:992px) {
+  .left {
+    padding: 2rem;
+  }
+  .w-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .scroll-wrapper {
+    max-width: calc(100vw - 3.5rem) !important;
+  }
+}
 
 .footer {
   padding: 2rem 0;
@@ -126,7 +157,7 @@ button:focus {
   color: inherit;
   border-bottom: 1px dotted rgba(255, 255, 255, 0.25);
   text-transform: capitalize;
-  transition: all .2s ease-in;
+  transition: all 0.2s ease-in;
 }
 
 .footer a:hover {

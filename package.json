@@ -1,36 +1,57 @@
 {
   "name": "pwa-weather-app",
-  "version": "0.1.0",
+  "description": "React Weather application (PWA)",
+  "version": "1.0.0",
+  "type": "module",
+  "author": {
+    "name": "Manoj Barman",
+    "url": "https://manojbarman.in"
+  },
+  "keywords": [
+    "React",
+    "PWA",
+    "Weather",
+    "OpenWeatherMap"
+  ],
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "axios": "^0.19.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-idle-timer": "^4.3.6",
-    "react-scripts": "3.4.1"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "test": "jest --detectOpenHandles",
+    "test:coverage": "jest --coverage"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "axios": "^1.11.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-idle-timer": "^4.3.6"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-fetch-mock": "^3.0.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "ts-jest": "^29.2.6",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.24.1",
+    "vite": "^6.2.0"
   }
 }
