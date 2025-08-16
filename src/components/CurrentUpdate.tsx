@@ -1,33 +1,35 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
-import DataService from '../api/dataService';
+import DataService from '../services/dataService';
+import { CurrentWeather } from '../services/types';
 import './Forecasts.css';
 
-const CurrentUpdate = ({ data, dailydata, timings, miniview, name }) => {
+type CurrentWeatherUpdateProps = {
+  data: CurrentWeather;
+  dailydata?: any;
+  miniview: boolean;
+};
+
+const CurrentUpdate = ({ data, miniview }: CurrentWeatherUpdateProps) => {
+  // console.log('data', data);
   const [minView, setMinView] = useState(miniview);
-  const [tempUnit] = useState('°c'); //  F
-  const [windSpeedUnit] = useState('mt/s'); // miles/hour
-  const [windDirection, setWindDirection] = useState(null);
-  const [tempData] = useState(dailydata.temp);
-  const [rainChance] = useState(dailydata.rain);
+
+  const tempUnit = '°c'; //  F
+  const windSpeedUnit = 'km/h'; // 'mt/s'; // miles/hour
+  const windDirection = DataService.degreesToCompass(data.wind.deg);
 
   useEffect(() => {
     setMinView(miniview);
   }, [miniview]);
-
-  useState(() => {
-    const direction = DataService.getCardinalDirection(data.wind_deg);
-    setWindDirection(direction);
-  }, [data]);
 
   const darkIcons = ['01n', '13d', '13n', '50d', '50n'];
 
   return (
     <div className={minView ? 'current-place min' : 'current-place'}>
       <div className="highlight">
-        <div className="location">{name}</div>
+        <div className="location">{data.name}</div>
         <div className="temp">
-          <span> {data.temp}</span>
+          <span>{data.main.temp.toFixed(0)}</span>
           <sup>{tempUnit}</sup>
         </div>
         <div
@@ -46,60 +48,67 @@ const CurrentUpdate = ({ data, dailydata, timings, miniview, name }) => {
         <div className="description">
           <span className="w">
             {data.weather[0].main} ({data.weather[0].description}), Feels like{' '}
-            {data.feels_like}
+            {data.main.feels_like.toFixed(0)}
             {tempUnit}
           </span>
           {data.rain && <span>Rain: {data.rain['1h']}mm (in last 1hr)</span>}
         </div>
-        <div className="humid">Humidity: {data.humidity}%</div>
+        <div className="humid">Humidity: {data.main.humidity}%</div>
         <div className="wind">
-          {windDirection} {data.wind_speed} {windSpeedUnit}
+          {windDirection} {Math.round(data.wind.speed * 3.6)} {windSpeedUnit}
         </div>
         <div className="temp">
           <span>
-            <small>HI</small>
-            {tempData.max}
+            <small>Hi</small>
+            {data.main.temp_max.toFixed(0)}
             <sup>{tempUnit}</sup>
           </span>
           <span>
-            <small>LO</small>
-            {tempData.min}
+            <small>Lo</small>
+            {data.main.temp_min.toFixed(0)}
             <sup>{tempUnit}</sup>
           </span>
         </div>
       </div>
       <div className="city">
-        {data.dt < data.sunrise && (
+        {data.dt < data.sys.sunrise && (
           <div>
             <span className="icon sunrise"></span>
             <p>
               Sunrise
-              <strong>{DataService.getDateTime(data.sunrise, 'time')}</strong>
+              <strong>
+                {DataService.getDateTime(data.sys.sunrise, 'time')}
+              </strong>
             </p>
           </div>
         )}
-        {data.dt >= data.sunrise && data.dt < data.sunset && (
+        {data.dt >= data.sys.sunrise && data.dt < data.sys.sunset && (
           <div>
             <span className="icon sunset"></span>
             <p>
               Sunset
-              <strong>{DataService.getDateTime(data.sunset, 'time')}</strong>
+              <strong>
+                {DataService.getDateTime(data.sys.sunset, 'time')}
+              </strong>
             </p>
           </div>
         )}
-        {data.dt >= data.sunset && (
+        {data.dt >= data.sys.sunset && (
           <div>
             <span className="icon sunrise"></span>
             <p>
               Sunrise
-              <strong>{DataService.getDateTime(timings[2], 'time')}</strong>
+              <strong>
+                {DataService.getDateTime(data.sys.sunrise, 'time')}
+              </strong>
             </p>
           </div>
         )}
         <div>
           <span className="icon uv"></span>
           <p>
-            UV Index <strong>{data.uvi}</strong>{' '}
+            UV Index
+            <strong>-</strong>{' '}
           </p>
         </div>
         <div>
@@ -111,19 +120,20 @@ const CurrentUpdate = ({ data, dailydata, timings, miniview, name }) => {
         <div>
           <span className="icon press"></span>
           <p>
-            Air Pressure <strong>{data.pressure} hPa</strong>
+            Air Pressure <strong>{data.main.pressure} hPa</strong>
           </p>
         </div>
         <div>
           <span className="icon cloud"></span>
           <p>
-            Cloudiness <strong>{data.clouds}%</strong>{' '}
+            Cloudiness <strong>{data.clouds.all}%</strong>{' '}
           </p>
         </div>
         <div>
           <span className="icon rain"></span>
           <p>
-            Chances of Rain <strong>{Math.round(rainChance * 100)} %</strong>{' '}
+            Rain in 3 hour{' '}
+            <strong>{data?.rain?.['1h'] || 0 + ' mm'}</strong>{' '}
           </p>
         </div>
       </div>

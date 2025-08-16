@@ -25,16 +25,15 @@ button:focus {
   outline: none;
 }
 
-
 .main-container {
-  background-color: rgba(0, 0, 0, 0.55);
+  background-color: rgba(0, 0, 0, 0.4);
   background-size: cover;
   background-position: center;
   background-blend-mode: overlay;
 }
 
 .main-container.night {
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.65);
 }
 
 .main-container {
@@ -82,7 +81,7 @@ button:focus {
   overflow: hidden;
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width: 600px) {
   .main-container.drawer-open {
     grid-template-columns: 1fr;
   }
@@ -109,11 +108,9 @@ button:focus {
   cursor: pointer;
 }
 
-
 .grabber:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
-
 
 .footer {
   padding: 2rem 0;
@@ -126,7 +123,7 @@ button:focus {
   color: inherit;
   border-bottom: 1px dotted rgba(255, 255, 255, 0.25);
   text-transform: capitalize;
-  transition: all .2s ease-in;
+  transition: all 0.2s ease-in;
 }
 
 .footer a:hover {

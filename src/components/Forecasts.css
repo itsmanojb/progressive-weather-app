@@ -46,7 +46,7 @@
   width: 30px;
   background: url('../assets/icons/pin.png') no-repeat center;
   background-size: 18px;
-  margin-top: -10px;
+  margin-top: -6px;
   left: 0;
 }
 
@@ -57,7 +57,7 @@
   margin-left: -10px;
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width: 600px) {
   .current-place .highlight .temp {
     margin-left: 0;
     margin: 60px 0 0;
@@ -83,7 +83,7 @@
   align-items: center;
 }
 
-.current-place .more-info .description span+span::before {
+.current-place .more-info .description span + span::before {
   content: ', ';
 }
 
@@ -179,7 +179,6 @@
 }
 
 @media screen and (max-width: 600px) {
-
   .current-place .more-info .description {
     flex-direction: column;
     margin-right: 0;
@@ -189,7 +188,7 @@
     margin-bottom: 20px;
   }
 
-  .current-place .more-info .description span+span::before {
+  .current-place .more-info .description span + span::before {
     content: none;
   }
 }
@@ -203,7 +202,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.current-place .city>div {
+.current-place .city > div {
   display: flex;
   /* flex-direction: column; */
   justify-content: flex-start;
@@ -217,7 +216,7 @@
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .current-place .city>div {
+  .current-place .city > div {
     padding: 0.75rem 0;
   }
 }
@@ -232,7 +231,8 @@
   display: block;
   height: 50px;
   width: 50px;
-  background-color: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.04) !important;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -294,22 +294,41 @@
 .hourly-updates .header {
   padding: 0.15rem 0;
   margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hourly-updates .header h2 {
+  margin: 0;
   color: rgba(255, 255, 255, 0.45);
   font-size: 1.25rem;
   font-weight: 400;
 }
 
+.hourly-updates .header .options {
+  width: 200px;
+}
+
 .hourly-updates .hour {
-  min-width: 80px;
-  margin: 1px;
-  padding: 1.5rem 1rem;
+  height: 150px;
+  margin-right: 4px;
   background-color: rgba(255, 255, 255, 0.04);
-  transition: all 0.2s ease-in;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s ease-in;
   color: rgba(255, 255, 255, 0.65);
   text-align: center;
+  position: relative;
+  display: flex;
+}
+
+.hourly-updates .hour .fg {
+  padding: 1.5rem 1rem;
+  width: 64px;
 }
 
 .hourly-updates .hour:hover {
@@ -324,6 +343,56 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 
+.hourly-updates .hour .full-details {
+  display: none;
+  border-radius: 0 5px 5px 0;
+}
+
+@media (pointer: coarse) {
+  .hourly-updates .hour.selected {
+    display: grid;
+    grid-template-columns: 96px 300px;
+  }
+
+  .hourly-updates .hour.selected .full-details {
+    display: flex;
+  }
+}
+
+@media (any-pointer: fine) {
+  .hourly-updates .hour:hover {
+    display: grid;
+    grid-template-columns: 96px 300px;
+  }
+
+  .hourly-updates .hour:hover .full-details {
+    display: flex;
+  }
+}
+
+.hourly-updates .hour .full-details {
+  padding: 1rem;
+  font-size: 12px;
+  text-align: left;
+  gap: 10px;
+
+  dl {
+    margin: 0;
+    flex: 1;
+
+    dt {
+      text-transform: capitalize;
+      font-size: 11px;
+    }
+
+    dd {
+      margin: 0 0 10px;
+      padding: 0;
+      color: #e8e8e8;
+    }
+  }
+}
+
 .hourly-updates .hour .time {
   color: rgba(255, 255, 255, 0.5);
   font-size: 12px;
@@ -331,16 +400,44 @@
 
 .hourly-updates .hour .icon {
   text-align: center;
-  margin: 10px 0;
+  margin: 10px 0 0;
 }
 
 .hourly-updates .hour .weather {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-size: 12px;
 }
 
-.days-7 .header {
+.hourly-updates .hour .compass {
+  background: #fff1;
+  height: 40px;
+  width: 40px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin: 10px auto;
+}
+
+.hourly-updates .hour .compass img {
+  height: 30px;
+  width: 30px;
+  object-fit: contain;
+  filter: invert(1);
+  margin: 5px;
+}
+
+.wind {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.days-5 .header {
   padding: 0.25rem 0;
   margin: 1rem 0;
   color: rgba(255, 255, 255, 0.25);
@@ -348,45 +445,47 @@
   font-weight: 400;
 }
 
-.days-7 .day {
+.days-5 .day {
   min-width: 150px;
   margin: 3px;
   padding: 1.5rem 1rem;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
   transition: all 0.2s ease-in;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease-in;
   color: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.days-7 .day:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.days-5 .day:hover {
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
-.days-7 .day .name {
+.days-5 .day .name {
   color: rgba(255, 255, 255, 0.85);
   font-size: 16px;
 }
 
-.days-7 .day .name span {
+.days-5 .day .name span {
   display: block;
   margin-top: 8px;
   font-size: 80%;
   color: rgba(255, 255, 255, 0.45);
 }
 
-.days-7 .day .icon {
+.days-5 .day .icon {
   text-align: center;
 }
 
-.days-7 .day .weather {
+.days-5 .day .weather {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
 }
 
-.days-7 .day .weather span {
+.days-5 .day .weather span {
   display: block;
   margin-bottom: 5px;
 }
@@ -414,7 +513,7 @@
   margin-top: 20vh;
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width: 600px) {
   .current-place.min {
     margin-top: 0;
   }
