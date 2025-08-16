@@ -1,24 +1,3 @@
-.scroll-wrapper {
-  max-width: calc(100vw - 8rem);
-  min-height: 150px;
-  display: flex;
-  overflow: auto;
-  padding-bottom: 1rem;
-  margin: 0 -4px;
-}
-
-@media screen and (max-width: 600px) {
-  .scroll-wrapper {
-    max-width: calc(100vw - 4rem);
-  }
-}
-
-.scroll-wrapper::-webkit-scrollbar {
-  display: none;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
 .current-place {
   color: rgba(255, 255, 255, 0.65);
   transition: all 0.3s ease-out;
@@ -168,7 +147,7 @@
   .current-place .more-info .wind,
   .current-place .more-info .temp {
     margin-left: 0px;
-    justify-content: flex-start;
+    align-items: flex-start;
     padding-left: 60px;
   }
 
@@ -231,8 +210,8 @@
   display: block;
   height: 50px;
   width: 50px;
-  backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0.04) !important;
+  backdrop-filter: var(--glass-filter);
+  background-color: var(--glass-bg) !important;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -313,17 +292,17 @@
 
 .hourly-updates .hour {
   height: 150px;
-  margin-right: 4px;
-  background-color: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: var(--glass-bg);
+  border: var(--glass-border);
   backdrop-filter: blur(10px);
-  border-radius: 5px;
+  border-radius: var(--corner);
   cursor: pointer;
   transition: all 0.2s ease-in;
   color: rgba(255, 255, 255, 0.65);
   text-align: center;
   position: relative;
   display: flex;
+  box-sizing: border-box;
 }
 
 .hourly-updates .hour .fg {
@@ -345,7 +324,7 @@
 
 .hourly-updates .hour .full-details {
   display: none;
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 var(--corner) var(--corner) 0;
 }
 
 @media (pointer: coarse) {
@@ -446,17 +425,18 @@
 }
 
 .days-5 .day {
-  min-width: 150px;
-  margin: 3px;
+  min-width: 180px;
   padding: 1.5rem 1rem;
-  background-color: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(10px);
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-filter);
   transition: all 0.2s ease-in;
-  border-radius: 4px;
+  border-radius: var(--corner);
   cursor: pointer;
   transition: all 0.2s ease-in;
   color: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: var(--glass-border);
+  height: 240px;
+  box-sizing: border-box;
 }
 
 .days-5 .day:hover {
@@ -486,27 +466,14 @@
 }
 
 .days-5 .day .weather span {
-  display: block;
-  margin-bottom: 5px;
+  display: inline-block;
+  margin-right: 10px;
 }
 
-.weather span.temp {
-  position: relative;
-  padding-left: 15px;
-}
-
-.weather span.temp.H::before {
-  content: 'H';
-  width: 15px;
-  position: absolute;
-  left: 0;
-}
-
-.weather span.temp.L::before {
-  content: 'L';
-  width: 15px;
-  position: absolute;
-  left: 0;
+.days-5 .day .weather {
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12px;
 }
 
 .current-place.min {

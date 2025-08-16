@@ -1,9 +1,9 @@
-import { CurrentWeather, ForecastData } from './types';
-
-export interface CombinedWeatherData {
-  current: CurrentWeather;
-  forecast: ForecastData;
-}
+import {
+  CurrentWeather,
+  ForecastData,
+  AirPollutionData,
+  CombinedWeatherData,
+} from './types';
 
 const CACHE_DURATION_MINUTES = 10; // cache lifetime
 const CACHE_KEY_PREFIX = 'weather_cache_';
@@ -11,6 +11,7 @@ const API_KEY = import.meta.env.VITE_OWM_API_KEY;
 
 const CurrentWeatherAPI = 'https://api.openweathermap.org/data/2.5/weather';
 const ForecastAPI = 'https://api.openweathermap.org/data/2.5/forecast';
+const AirPollutionAPI = 'http://api.openweathermap.org/data/2.5/air_pollution';
 
 // Round coordinates to reduce precision for better caching efficiency
 function roundCoord(value: number, decimals = 1): number {
@@ -45,13 +46,14 @@ export async function getWeatherWithForecast(
   }
 
   try {
-    const [currentRes, forecastRes] = await Promise.all([
+    const [currentRes, forecastRes, airPollutionRes] = await Promise.all([
       fetch(
         `${CurrentWeatherAPI}?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`,
       ),
       fetch(
         `${ForecastAPI}?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`,
       ),
+      fetch(`${AirPollutionAPI}?lat=${lat}&lon=${lon}&appid=${API_KEY}`),
     ]);
 
     if (!currentRes.ok || !forecastRes.ok) {
@@ -60,8 +62,9 @@ export async function getWeatherWithForecast(
 
     const current: CurrentWeather = await currentRes.json();
     const forecast: ForecastData = await forecastRes.json();
+    const airPollution: AirPollutionData = await airPollutionRes.json();
 
-    const combined: CombinedWeatherData = { current, forecast };
+    const combined: CombinedWeatherData = { current, forecast, airPollution };
 
     localStorage.setItem(
       cacheKey,

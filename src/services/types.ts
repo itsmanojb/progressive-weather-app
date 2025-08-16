@@ -1,8 +1,3 @@
-export interface CurrentWeatherData {
-  data: CurrentWeather;
-  expiry: number;
-}
-
 export interface CurrentWeather {
   coord: Coord;
   weather: Weather[];
@@ -143,4 +138,34 @@ export interface DailyWeatherSummary {
 export interface HourlyWeatherForecast extends WeatherForecast {
   dateTime: string;
   windDirection: string;
+}
+
+export interface AirPollutionInfo {
+  dt: number;
+  main: {
+    aqi: number;
+  };
+  components: Components;
+}
+
+interface Components {
+  co: number;
+  no: number;
+  no2: number;
+  o3: number;
+  so2: number;
+  pm2_5: number;
+  pm10: number;
+  nh3: number;
+}
+
+export interface AirPollutionData {
+  coord: [number, number];
+  list: AirPollutionInfo[];
+}
+
+export interface CombinedWeatherData {
+  current: CurrentWeather;
+  forecast: ForecastData;
+  airPollution: AirPollutionData;
 }

@@ -1,0 +1,76 @@
+.aqi-widget {
+  container-type: inline-size;
+  .header {
+    padding: 0.25rem 0;
+    margin: 1rem 0;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+
+  .contents {
+    padding: 1rem;
+    background-color: var(--glass-bg);
+    border: var(--glass-border);
+    backdrop-filter: var(--glass-filter);
+    border-radius: var(--corner);
+    height: 240px;
+    color: rgba(255, 255, 255, 0.65);
+    box-sizing: border-box;
+
+    > p {
+      font-size: 16px;
+      padding: 0.25rem 0;
+      margin: 0;
+    }
+
+    > small {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    columns: 2;
+    margin: 1.5rem 0;
+    padding: 0;
+
+    li {
+      display: flex;
+      margin-bottom: 0.5rem;
+      gap: 10px;
+      font-size: 13px;
+
+      .lbl {
+        opacity: 0.8;
+        width: 30px;
+      }
+
+      .val {
+        color: #ddd;
+      }
+    }
+  }
+}
+
+@container (min-width:400px) {
+  .aqi-widget {
+    .contents {
+      height: auto;
+    }
+    ul {
+      columns: 1;
+      display: flex;
+      gap: 0 1.5rem;
+      flex-wrap: wrap;
+      margin: 4px 0 0;
+      li {
+        gap: 6px;
+        .lbl {
+          width: auto;
+        }
+      }
+    }
+  }
+}

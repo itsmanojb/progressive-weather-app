@@ -1,16 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
-
 import CurrentUpdate from './components/CurrentUpdate';
 import Upcoming5Days from './components/Upcoming5Days';
 import HourlyUpdates from './components/HourlyUpdates';
 import Sidebar from './components/Sidebar';
 import DataService from './services/dataService';
-import {
-  getWeatherWithForecast,
-  CombinedWeatherData,
-} from './services/weatherService';
+import { getWeatherWithForecast } from './services/weatherService';
+import { CombinedWeatherData } from './services/types';
 import './Weather.css';
+import AirQuality from './components/AirQuality';
 
 const App: React.FC = () => {
   const [bgClass, setBGClass] = useState('');
@@ -81,7 +79,7 @@ const App: React.FC = () => {
         drawerShown ? ' drawer-open' : ''
       }`}
     >
-      <div className="left" onClick={(e) => setMinimalView(false)}>
+      <div className="left" onClick={() => setMinimalView(false)}>
         {loading ? (
           <div className="loading">Fetching...</div>
         ) : error ? (
@@ -95,25 +93,32 @@ const App: React.FC = () => {
                 miniview={minimalView}
               />
               {!minimalView && (
-                <HourlyUpdates data={weatherData.forecast.list} />
-              )}
-              {!minimalView && weatherData.forecast && (
-                <Upcoming5Days
-                  data={weatherData.forecast.list}
-                  city={weatherData.forecast.city}
-                />
-              )}
-              {!minimalView && (
-                <div className="footer">
-                  Data provided by{' '}
-                  <a
-                    href="https://openweathermap.org/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    openweathermap
-                  </a>
-                </div>
+                <>
+                  <div className="w-layout">
+                    <div className="a-data">
+                      <AirQuality data={weatherData.airPollution.list[0]} />
+                    </div>
+                    <div className="u-data">
+                      <Upcoming5Days
+                        data={weatherData.forecast.list}
+                        city={weatherData.forecast.city}
+                      />
+                    </div>
+                    <div className="h-data">
+                      <HourlyUpdates data={weatherData.forecast.list} />
+                    </div>
+                  </div>
+                  <div className="footer">
+                    Data provided by{' '}
+                    <a
+                      href="https://openweathermap.org/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      openweathermap
+                    </a>
+                  </div>
+                </>
               )}
             </>
           )

@@ -34,15 +34,14 @@ const Upcoming5Days = ({ data }: { data: WeatherForecast[]; city: City }) => {
               </div>
               <div className="weather">
                 <div>
-                  <span className="temp H">
-                    {Math.round(day.tempHigh)} {tempUnit}
-                  </span>
-                  <span className="temp L">
-                    {Math.round(day.tempLow)} {tempUnit}
+                  <span>Temp :</span>
+                  <span>
+                    {Math.round(day.tempHigh)} - {Math.round(day.tempLow)}{' '}
+                    <sup>{tempUnit}</sup>
                   </span>
                 </div>
                 <div>
-                  <span>Humidity</span>
+                  <span>Humidity :</span>
                   <span>{day.humidityAvg}%</span>
                 </div>
               </div>

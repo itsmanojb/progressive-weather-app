@@ -11,7 +11,6 @@ type CurrentWeatherUpdateProps = {
 };
 
 const CurrentUpdate = ({ data, miniview }: CurrentWeatherUpdateProps) => {
-  // console.log('data', data);
   const [minView, setMinView] = useState(miniview);
 
   const tempUnit = '°c'; //  F
@@ -57,7 +56,7 @@ const CurrentUpdate = ({ data, miniview }: CurrentWeatherUpdateProps) => {
         <div className="wind">
           {windDirection} {Math.round(data.wind.speed * 3.6)} {windSpeedUnit}
         </div>
-        <div className="temp">
+        {/* <div className="temp">
           <span>
             <small>Hi</small>
             {data.main.temp_max.toFixed(0)}
@@ -68,7 +67,7 @@ const CurrentUpdate = ({ data, miniview }: CurrentWeatherUpdateProps) => {
             {data.main.temp_min.toFixed(0)}
             <sup>{tempUnit}</sup>
           </span>
-        </div>
+        </div> */}
       </div>
       <div className="city">
         {data.dt < data.sys.sunrise && (
