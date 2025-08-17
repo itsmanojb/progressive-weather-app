@@ -2,8 +2,6 @@ import { useState } from 'react';
 import {
   addRecentSearch,
   getRecentSearches,
-  toggleFavorite,
-  getFavorites,
   getCachedWeather,
   setCachedWeather,
 } from '../services/storageService';
@@ -96,7 +94,7 @@ const Sidebar = ({ klass, onPlaceClicked, onCloseClicked }) => {
             : style['glass-contents ']
         }
       >
-        <div className={style['close']} onClick={(e) => onCloseClicked(true)}>
+        <div className={style['close']} onClick={() => onCloseClicked(true)}>
           &times;
         </div>
         <div className={style['searchbox']}>

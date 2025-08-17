@@ -1,7 +1,7 @@
 {
-  "name": "pwa-weather-app",
-  "description": "React Weather application (PWA)",
-  "version": "1.0.0",
+  "name": "weather-mate",
+  "description": "React Progressive Web App for Weather powered by OpenWeatherMap",
+  "version": "2.0.0",
   "type": "module",
   "author": {
     "name": "Manoj Barman",
@@ -11,12 +11,14 @@
     "React",
     "PWA",
     "Weather",
-    "OpenWeatherMap"
+    "OpenWeatherMap",
+    "Typescript",
+    "Netlify"
   ],
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",
