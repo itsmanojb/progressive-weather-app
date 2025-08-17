@@ -11,7 +11,7 @@ const API_KEY = import.meta.env.VITE_OWM_API_KEY;
 
 const CurrentWeatherAPI = 'https://api.openweathermap.org/data/2.5/weather';
 const ForecastAPI = 'https://api.openweathermap.org/data/2.5/forecast';
-const AirPollutionAPI = 'http://api.openweathermap.org/data/2.5/air_pollution';
+const AirPollutionAPI = 'https://api.openweathermap.org/data/2.5/air_pollution';
 
 // Round coordinates to reduce precision for better caching efficiency
 function roundCoord(value: number, decimals = 1): number {
